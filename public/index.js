@@ -141,7 +141,7 @@ const actors = [{
   }]
 }];
 
-//Step 1 - Euro-Volume
+//Step 1 - Euro-Volume and Step 2 - Send more, pay less
 function getPrices(deliveries,truckers,index,type){
   var price = 0;
   for (var i = 0; i < truckers.length; i++) {
@@ -157,6 +157,14 @@ function calculateShippingPrice(deliveries){
     var distance_price = getPrices(deliveries,truckers,i,"pricePerKm");
     var volume_price = getPrices(deliveries,truckers,i,"pricePerVolume");
     //console.log(deliveries[i].volume);
+    if(5 <= deliveries[i].volume && deliveries[i].volume < 10){
+      volume_price = volume_price - 0.1*volume_price;
+    } if(10 <= deliveries[i].volume && deliveries[i].volume < 25){
+      volume_price = volume_price - 0.3*volume_price;
+    } if(deliveries[i].volume >= 25){
+      volume_price = volume_price - 0.5*volume_price;
+    }
+
     deliveries[i].price = deliveries[i].distance * distance_price + deliveries[i].volume * volume_price;
   }
 }
