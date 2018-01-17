@@ -177,7 +177,7 @@ function calculateCommission(){
   for (var i = 0; i < deliveries.length; i++) {
     var commission_price = 0.3 * deliveries[i].price;
     var insurance_fee = 0.5 * commission_price;
-    var treasury_fee = Math.trunc(deliveries[i].distance / 500);
+    var treasury_fee = Math.trunc(deliveries[i].distance / 500) + 1;
     var convargo_benefit = commission_price - insurance_fee - treasury_fee;
     if(deliveries[i].options.deductibleReduction === true){
       convargo_benefit += deliveries[i].volume;
