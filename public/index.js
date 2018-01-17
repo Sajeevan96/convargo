@@ -145,7 +145,7 @@ const actors = [{
 }];
 
 //Step 1 - Euro-Volume and Step 2 - Send more, pay less
-function getPrices(deliveries,truckers,index,type){
+function getPrices(index,type){
   var price = 0;
   for (var i = 0; i < truckers.length; i++) {
     if(truckers[i].id === deliveries[index].truckerId){
@@ -155,10 +155,10 @@ function getPrices(deliveries,truckers,index,type){
   return price;
 }
 
-function calculateShippingPrice(deliveries){
+function calculateShippingPrice(){
   for (var i = 0; i < deliveries.length; i++) {
-    var distance_price = getPrices(deliveries,truckers,i,"pricePerKm");
-    var volume_price = getPrices(deliveries,truckers,i,"pricePerVolume");
+    var distance_price = getPrices(i,"pricePerKm");
+    var volume_price = getPrices(i,"pricePerVolume");
     //console.log(deliveries[i].volume);
     if(5 <= deliveries[i].volume && deliveries[i].volume < 10){
       volume_price = volume_price - 0.1*volume_price;
@@ -173,7 +173,7 @@ function calculateShippingPrice(deliveries){
 }
 
 //Step 3 - Give me all your money and Step 4 - The famous deductible
-function calculateCommission(deliveries){
+function calculateCommission(){
   for (var i = 0; i < deliveries.length; i++) {
     var commission_price = 0.3 * deliveries[i].price;
     var insurance_fee = 0.5 * commission_price;
@@ -191,9 +191,34 @@ function calculateCommission(deliveries){
   }
 }
 
+//Step 5 - Pay the actors
+function payActors(){
+  for (var i = 0; i < deliveries.length; i++) {
+    for (var j = 0; j < actors[i].payment.length; j++) {
+      switch (actors[i].payment[j].who) {
+        case 'shipper':
+          actors[i].payment[j].amount = deliveries[i].price;
+          break;
+        case 'trucker':
+          actors[i].payment[j].amount = deliveries[i].price - deliveries[i].commission.insurance - deliveries[i].commission.treasury - deliveries[i].commission.convargo;
+          break;
+        case 'insurance':
+          actors[i].payment[j].amount = deliveries[i].commission.insurance;
+          break;
+        case 'treasury':
+          actors[i].payment[j].amount = deliveries[i].commission.treasury;
+          break;
+        case 'convargo':
+          actors[i].payment[j].amount = deliveries[i].commission.convargo;
+          break;
+        }
+    }
+  }
+} 
 
-calculateShippingPrice(deliveries);
-calculateCommission(deliveries);
+calculateShippingPrice();
+calculateCommission();
+payActors();
 
 console.log(truckers);
 console.log(deliveries);
