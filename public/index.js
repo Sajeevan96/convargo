@@ -36,6 +36,7 @@ var deliveries = [{
   'price': 0,
   'commission': {
     'insurance': 0,
+    'treasury': 0,
     'convargo': 0
   }
 }, {
@@ -50,6 +51,7 @@ var deliveries = [{
   'price': 0,
   'commission': {
     'insurance': 0,
+    'treasury': 0,
     'convargo': 0
   }
 }, {
@@ -64,6 +66,7 @@ var deliveries = [{
   'price': 0,
   'commission': {
     'insurance': 0,
+    'treasury': 0,
     'convargo': 0
   }
 }];
@@ -77,7 +80,7 @@ const actors = [{
     'type': 'debit',
     'amount': 0
   }, {
-    'who': 'owner',
+    'who': 'trucker',
     'type': 'credit',
     'amount': 0
   }, {
@@ -94,13 +97,13 @@ const actors = [{
     'amount': 0
   }]
 }, {
-  'rentalId': '65203b0a-a864-4dea-81e2-e389515752a8',
+  'deliveryId': '65203b0a-a864-4dea-81e2-e389515752a8',
   'payment': [{
     'who': 'shipper',
     'type': 'debit',
     'amount': 0
   }, {
-    'who': 'owner',
+    'who': 'trucker',
     'type': 'credit',
     'amount': 0
   }, {
@@ -117,13 +120,13 @@ const actors = [{
     'amount': 0
   }]
 }, {
-  'rentalId': '94dab739-bd93-44c0-9be1-52dd07baa9f6',
+  'deliveryId': '94dab739-bd93-44c0-9be1-52dd07baa9f6',
   'payment': [{
     'who': 'shipper',
     'type': 'debit',
     'amount': 0
   }, {
-    'who': 'owner',
+    'who': 'trucker',
     'type': 'credit',
     'amount': 0
   }, {
@@ -168,8 +171,24 @@ function calculateShippingPrice(deliveries){
     deliveries[i].price = deliveries[i].distance * distance_price + deliveries[i].volume * volume_price;
   }
 }
-calculateShippingPrice(deliveries);
 
+//Step 3 - Give me all your money
+function calculateCommission(deliveries){
+  for (var i = 0; i < deliveries.length; i++) {
+    var commission_price = 0.3 * deliveries[i].price;
+    var insurance_fee = 0.5 * commission_price;
+    var treasury_fee = Math.trunc(deliveries[i].distance / 500);
+    var convargo_benefit = commission_price - insurance_fee - treasury_fee;
+    //console.log(Math.trunc(treasury_fee)); 
+    //console.log(convargo_benefit);
+    deliveries[i].commission.insurance = insurance_fee;
+    deliveries[i].commission.treasury = treasury_fee;
+    deliveries[i].commission.convargo = convargo_benefit;
+  }
+}
+
+calculateShippingPrice(deliveries);
+calculateCommission(deliveries);
 
 console.log(truckers);
 console.log(deliveries);
