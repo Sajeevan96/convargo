@@ -141,7 +141,7 @@ const actors = [{
   }]
 }];
 
-//Exercise 1 - Euro-Volume
+//Step 1 - Euro-Volume
 function getPrices(deliveries,truckers,index,type){
   var price = 0;
   for (var i = 0; i < truckers.length; i++) {
