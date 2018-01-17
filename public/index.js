@@ -129,6 +129,28 @@ const actors = [{
   }]
 }];
 
+//Exercise 1 - Euro-Volume
+function getPrices(deliveries,truckers,index,type){
+  var price = 0;
+  for (var i = 0; i < truckers.length; i++) {
+    if(truckers[i].id === deliveries[index].truckerId){
+      price = truckers[i][type];
+    }
+  }
+  return price;
+}
+
+function calculateShippingPrice(deliveries){
+  for (var i = 0; i < deliveries.length; i++) {
+    var distance_price = getPrices(deliveries,truckers,i,"pricePerKm");
+    var volume_price = getPrices(deliveries,truckers,i,"pricePerVolume");
+    //console.log(deliveries[i].volume);
+    deliveries[i].price = deliveries[i].distance * distance_price + deliveries[i].volume * volume_price;
+  }
+}
+calculateShippingPrice(deliveries);
+
+
 console.log(truckers);
 console.log(deliveries);
 console.log(actors);
