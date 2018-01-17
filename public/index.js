@@ -172,13 +172,17 @@ function calculateShippingPrice(deliveries){
   }
 }
 
-//Step 3 - Give me all your money
+//Step 3 - Give me all your money and Step 4 - The famous deductible
 function calculateCommission(deliveries){
   for (var i = 0; i < deliveries.length; i++) {
     var commission_price = 0.3 * deliveries[i].price;
     var insurance_fee = 0.5 * commission_price;
     var treasury_fee = Math.trunc(deliveries[i].distance / 500);
     var convargo_benefit = commission_price - insurance_fee - treasury_fee;
+    if(deliveries[i].options.deductibleReduction === true){
+      convargo_benefit += deliveries[i].volume;
+      deliveries[i].price += deliveries[i].volume;
+    }
     //console.log(Math.trunc(treasury_fee)); 
     //console.log(convargo_benefit);
     deliveries[i].commission.insurance = insurance_fee;
@@ -186,6 +190,7 @@ function calculateCommission(deliveries){
     deliveries[i].commission.convargo = convargo_benefit;
   }
 }
+
 
 calculateShippingPrice(deliveries);
 calculateCommission(deliveries);
