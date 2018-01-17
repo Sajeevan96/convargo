@@ -42,7 +42,7 @@ var deliveries = [{
   'id': '65203b0a-a864-4dea-81e2-e389515752a8',
   'shipper': 'librairie-lu-cie',
   'truckerId': '165d65ec-5e3f-488e-b371-d56ee100aa58',
-  'distance': 500,
+  'distance': 650,
   'volume': 12,
   'options': {
     'deductibleReduction': true
@@ -85,6 +85,10 @@ const actors = [{
     'type': 'credit',
     'amount': 0
   }, {
+    'who': 'treasury',
+    'type': 'credit',
+    'amount': 0
+  }, {
     'who': 'convargo',
     'type': 'credit',
     'amount': 0
@@ -104,6 +108,10 @@ const actors = [{
     'type': 'credit',
     'amount': 0
   }, {
+    'who': 'treasury',
+    'type': 'credit',
+    'amount': 0
+  }, {
     'who': 'convargo',
     'type': 'credit',
     'amount': 0
@@ -116,6 +124,10 @@ const actors = [{
     'amount': 0
   }, {
     'who': 'owner',
+    'type': 'credit',
+    'amount': 0
+  }, {
+    'who': 'treasury',
     'type': 'credit',
     'amount': 0
   }, {

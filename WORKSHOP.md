@@ -101,6 +101,7 @@ Commission
 
 ---
 
+* the Treasury → 1€ by 500km
 * convargo → the rest
 
 ---

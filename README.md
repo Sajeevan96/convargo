@@ -188,6 +188,7 @@ Convargo take a 30% commission on the shipping price to cover their costs.
 The commission is split like this:
 
 * **insurance**: half of commission
+* **the Treasury**: 1€ by 500km range
 * **convargo**: the rest
 
 #### Just tell me what to do
@@ -207,6 +208,7 @@ console.log(deliveries);
     ...
     "commission": {
       "insurance": ?,
+      "treasury": ?
       "convargo": ?
     }
   },
@@ -258,6 +260,7 @@ It's time to debit/credit each actor!
 - **the shipper** must pay the **shipping price** and the **(optional) deductible reduction**
 - **the trucker** receives the **shipping price** minus the **commission**
 - **the insurance** receives its part of the **commission**
+- **the Treasury** receives its part of the tax **commission**
 - **convargo receives** its part of the **commission**, plus the **deductible reduction**
 
 #### Just tell me what to do
@@ -287,6 +290,11 @@ console.log(actors);
       },
       {
         "who": "insurance",
+        "type": "credit",
+        "amount": ?
+      },
+      {
+        "who": "treasury",
         "type": "credit",
         "amount": ?
       },
